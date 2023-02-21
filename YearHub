@@ -165,4 +165,54 @@ local Window = OrionLib:MakeWindow({Name = "Year hub", HidePremium = false, Save
     
     AutoFarm1:AddLabel("The scripts work without any problem, please enable the script in the Game")
  
-    
+
+
+    local AutoFarm2 = Window:MakeTab({
+        Name = "Arsenal",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    AutoFarm2:AddButton({
+        Name = "Aimbot",
+        Callback = function()
+            local target = nil
+
+            local function GetNearestPlayer()
+                local players = game.Players:GetPlayers()
+                local closestDistance = math.huge
+                local closestPlayer = nil
+                
+                for i, player in ipairs(players) do
+                    local character = player.Character
+                    if character then
+                        local head = character:FindFirstChild("Head")
+                        if head then
+                            local distance = (head.Position - game.Players.LocalPlayer.Character.Head.Position).magnitude
+                            if distance < closestDistance then
+                                closestDistance = distance
+                                closestPlayer = player
+                            end
+                        end
+                    end
+                end
+                return closestPlayer
+            end
+            
+            local function Aimbot()
+                target = GetNearestPlayer()
+                if target then
+                    local targetHead = target.Character:FindFirstChild("Head")
+                    if targetHead then
+                        local character = game.Players.LocalPlayer.Character
+                        local torso = character:WaitForChild("Torso")
+                        torso.CFrame = CFrame.new(torso.Position, targetHead.Position)
+                    end
+                end
+            end
+            
+            while wait() do
+                Aimbot()
+            end
+          end    
+    })
